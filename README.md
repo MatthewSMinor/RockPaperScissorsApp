@@ -1,1 +1,1 @@
-This is a basic tic-tac-toe android application, play tic-tac-toe all day long against a computer!
+This is a basic Rock-Paper-Scissors android application, play all day long against a computer!
