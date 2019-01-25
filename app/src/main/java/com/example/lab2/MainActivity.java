@@ -18,15 +18,16 @@ public class MainActivity extends AppCompatActivity {
     private Weapon cChoice;
     private int pWinCount;
     private int cWinCount;
-    private TextView weaponView = findViewById(R.id.weaponView);
-    private TextView winView = findViewById(R.id.winCountView);
+    private TextView weaponView;
+    private TextView resultView;
+    private TextView winCountView;
 
 
     //method to pick computer choice
     private void computerPick(){
         Weapon pick;
         Random r = new Random();
-        int num = r.nextInt((2 - 1) + 1) + 1;
+        int num = r.nextInt((3 - 1) + 1) + 1;
 
         switch(num){
             case 1:
@@ -40,22 +41,71 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
         }
-        cChoice =  pick;
+        cChoice = pick;
 
     }
 
 
     //method to see who wins
     private void whoWon(Weapon pChoice){
-        String s = "";
         computerPick();
+        String roundWinner = "";
+        switch(pChoice){
+            case ROCK:
+                if(cChoice == Weapon.ROCK){
+                    resultView.setText("Tie");
+                }
+                else if(cChoice == Weapon.PAPER){
+                    roundWinner = "Computer";
+                    cWinCount++;
+                    resultView.setText("Computer Wins");
+                }
+                else if(cChoice == Weapon.SCISSORS){
+                    roundWinner = "Player";
+                    pWinCount++;
+                    resultView.setText("Player Wins");
+                }
+                break;
+            case PAPER:
+                if(cChoice == Weapon.PAPER){
+                    resultView.setText("Tie");
+                }
+                else if(cChoice == Weapon.SCISSORS){
+                    roundWinner = "Computer";
+                    cWinCount++;
+                    resultView.setText("Computer Wins");
+                }
+                else if(cChoice == Weapon.ROCK){
+                    roundWinner = "Player";
+                    pWinCount++;
+                    resultView.setText("Player Wins");
+                }
+                break;
+            default:
+                if(cChoice == Weapon.SCISSORS){
+                    resultView.setText("Tie");
+                }
+                else if(cChoice == Weapon.ROCK){
+                    roundWinner = "Computer";
+                    cWinCount++;
+                    resultView.setText("Computer Wins");
+                }
+                else if(cChoice == Weapon.PAPER){
+                    roundWinner = "Player";
+                    pWinCount++;
+                    resultView.setText("Player Wins");
+                }
+                break;
+        }
 
-        //increment pWinCount or cWinCount depending on who won
 
         //change text field of pWinCount or cWinCount
+        StringBuilder s = new StringBuilder();
+        s.append("Player: ");s.append(pWinCount);s.append("\nComputer: ");s.append(cWinCount);
+        winCountView.setText(s.toString());
 
         //change text field of weapon choices
-        StringBuilder weaponString = null;
+        StringBuilder weaponString = new StringBuilder();
         weaponString.append("Player Weapon: "); weaponString.append(pChoice);
         weaponString.append("\nComputer Weapon: "); weaponString.append((cChoice));
         weaponView.setText(weaponString.toString());
@@ -64,39 +114,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-    public enum Weapon {
-
-        ROCK("Rock"),
-        PAPER("Paper"),
-        SCISSORS("Scissors");
-
-        private String message;
-
-        private Weapon(String msg) { message = msg; }
-
-        @Override
-        public String toString() { return message; }
-
-    };
-
-
     //onclick for rock
-    private void rockClick(View v){
+    public void rockClick(View v){
         pChoice = Weapon.ROCK;
         whoWon(pChoice);
 
     }
 
     //onclick for paper
-    private void paperClick(View v){
+    public void paperClick(View v){
         pChoice = Weapon.PAPER;
         whoWon(pChoice);
     }
 
 
     //onclick for scissors
-    private void scissorClick(View v){
+    public void scissorClick(View v){
         pChoice = Weapon.SCISSORS;
         whoWon(pChoice);
 
@@ -120,8 +153,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //TextView weaponView = findViewById(R.id.weaponView);
-
+        weaponView = findViewById(R.id.weaponView);
+        resultView = findViewById(R.id.resultView);
+        winCountView = findViewById(R.id.winCountView);
 
 
     }
@@ -147,4 +181,20 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+    public enum Weapon {
+
+        ROCK("Rock"),
+        PAPER("Paper"),
+        SCISSORS("Scissors");
+
+        private String message;
+
+        private Weapon(String msg) { message = msg; }
+
+        @Override
+        public String toString() { return message; }
+
+    };
 }
